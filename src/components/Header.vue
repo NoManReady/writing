@@ -2,7 +2,7 @@
   <div class="header" v-swing="color" @click="changeColor">
     <h2 class="header-banner">{{banner}}</h2>
     <div class="router-view">
-      <transition name="slide-down">
+      <transition name="slide-down" mode="in-out">
         <span :key="title">{{title}}</span>
       </transition>
     </div>
@@ -45,7 +45,7 @@ export default {
   height:$bannerHeight;
   align-items: center;
   .header-banner{
-    flex:0 0 10rem;
+    flex:0 0 15rem;
     padding-left:2rem;
     font-size:150%;
   }

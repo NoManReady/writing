@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import timeLine from './timeLine/timeLine';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -43,8 +44,11 @@ export default new Vuex.Store({
         title: state => {
             return state.title;
         },
-        loading: state => {
+        loading: (state,getters,root) => {
             return state.loading;
         },
+    },
+    modules:{
+      timeLine
     }
 })

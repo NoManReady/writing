@@ -13,7 +13,7 @@ export default {
     name: 'list',
     data() {
         return {
-            list:Array.apply(null,{length:512}).map((l,i)=>{let string16=(i*8).toString(16);return `#${_.repeat(0,3-string16.length)}${string16}`;})
+            list:Array.apply(null,{length:64}).map((l,i)=>{let string16=(i*64).toString(16);return `#${_.repeat(0,3-string16.length)}${string16}`;})
         };
     },
     components: {
@@ -80,7 +80,6 @@ export default {
 @media screen and (max-width:750px){
   .container{
     font-size:12px;
-    width:90%;
     .list{
       flex-direction:column;
       .item{

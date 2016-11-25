@@ -1,3 +1,9 @@
+/**
+ * 返回指定时间格式
+ * @param  {string} value 时间串
+ * @param  {string} fmt   时间格式
+ * @return {string}       指定时间格式字符串
+ */
 export function timeFormat(value, fmt = 'yyyy-MM-dd') {
     let date = new Date(value);
     let o = {
@@ -14,3 +20,56 @@ export function timeFormat(value, fmt = 'yyyy-MM-dd') {
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
+
+/**
+ * 获取字符串真实长度
+ * @param  {string} str 给定字符串
+ * @return {int}     字符串长度
+ */
+export function getRealLength(str){
+  let realLength=0;
+  let strLen=str.length;
+  str.split('').forEach((s,i)=>{
+    let char=s.charAt(0);
+    if(isSingleChar(char)){
+      realLength++;
+    }else{
+      realLength+=2;
+    }
+  });
+  return realLength;
+}
+
+/**
+ * 获取指定长度的字符串
+ * @param  {string} str   初始字符串
+ * @param  {int} size  截取字符串长度
+ * @return {object}       截取字符串及当前字符串索引对象
+ */
+export function getStringByLength(str,size){
+  let len=0,cursor=0,returnString=[];
+  while(len<size&&cursor<str.length){
+    let char=str.charAt(cursor);
+    returnString.push(char);
+    if(isSingleChar(char)){
+      len++;
+    }else{
+      len+=2;
+    }
+    cursor++;
+  }
+  return {
+    content:returnString.join(''),
+    cursor:cursor
+  };
+}
+
+/**
+ * 判断是否为单字符
+ * @param  {string}  char 判断字符串
+ * @return {Boolean}      是否为单字符
+ */
+function isSingleChar(char){
+  let code=char.charCodeAt(0);
+  return code>=0&&code<=128;
+}

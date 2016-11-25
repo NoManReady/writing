@@ -1,34 +1,51 @@
 <template>
   <div class="list-container">
-    <button @click="shuffle" class="shuffle" v-swing>shuffle</button>
+    <button @click="shuffle" class="shuffle" v-swing ref="button">shuffle</button>
     <transition-group name="shuffle" class="list" tag="div" appear>
-      <div class="item" v-for="(l,i) in list" :key="l" :style="{'color':l}" v-swing>{{l}}</div>
+      <div class="item" v-for="(l,i) in list" :key="l" :style="{'color':l}" v-swing="l" ref="list">{{l}}</div>
     </transition-group>
   </div>
 </template>
 
 <script>
 import _ from 'lodash';
+import {
+    mapActions,
+    mapGetters
+} from 'vuex';
 export default {
     name: 'list',
     data() {
         return {
-            list:Array.apply(null,{length:512}).map((l,i)=>{let string16=(i*8).toString(16);return `#${_.repeat(0,3-string16.length)}${string16}`;})
+            list: Array.apply(null, {
+                length: 512
+            }).map((l, i) => {
+                let string16 = (i * 8).toString(16);
+                return `#${_.repeat(0,3-string16.length)}${string16}`;
+            })
         };
+    },
+    computed:{
+      ...mapGetters(['loading'])
     },
     components: {
 
     },
     methods: {
+        ...mapActions(['show_loading']),
         shuffle() {
             this.list = _.shuffle(this.list);
         }
     },
-    created() {
-
-    },
-    mounted() {}
+    created() {},
+    mounted() {
+      setTimeout(()=>{
+        this.show_loading();
+        console.log(this.loading);
+      }, 2000);
+    }
 };
+
 
 </script>
 
@@ -80,7 +97,6 @@ export default {
 @media screen and (max-width:750px){
   .container{
     font-size:12px;
-    width:90%;
     .list{
       flex-direction:column;
       .item{

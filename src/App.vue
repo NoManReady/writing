@@ -2,10 +2,10 @@
   <div class="app">
     <HeaderComponent/>
     <div class="container">
-      <transition :name="slide" appear mode="out-in">
-        <keep-alive>
+      <transition :name="slide" mode="out-in">
+        <!-- <keep-alive> -->
           <router-view></router-view>
-        </keep-alive>
+        <!-- </keep-alive> -->
       </transition>
     </div>
     <FooterComponent/>
@@ -20,7 +20,7 @@ export default {
   name: 'app',
   data(){
     return {
-      routes:Object.freeze(['/home','/upload']),
+      routes:Object.freeze(['/home','/upload','/canvas','/timeinput','/echatline']),
       slide:'',
       router:''
     }

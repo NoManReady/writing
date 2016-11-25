@@ -5,6 +5,7 @@
   "author": "qiangk <qiangk@101.com>",
   "private": true,
   "scripts": {
+    "t":"node test.js 123",
     "server": "node server.js",
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
