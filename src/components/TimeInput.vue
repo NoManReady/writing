@@ -2,6 +2,9 @@
   <div class="time-input">
     <label style="cursor:pointer;"><small>是否缩进：</small><input type="checkbox" v-model="indent"></label>
     <a @click="getAllData" class="test-btn">get-data</a>
+    <a @click="stopTimer" class="test-btn">stop</a>
+    <a @click="resumeTimer" class="test-btn">resume</a>
+    <label><small>Time：</small>{{totalTime|formatSecond}}</label>
     <div v-for="(line,index) in lines">
       <line-input ref="lineInput" :isFirst="isFirstLine(line)" :content="line" :indent="indent" :index="index" :key="line"/>
     </div>
@@ -15,7 +18,9 @@ import {
 import LineInput from './LineInput';
 import {
     PREFIX,
-    SET_LINE
+    SET_LINE,
+    PAUSE_TIMER,
+    RESUME_TIMER
 } from '../store/timeLine/constant';
 import {
     getRealLength,
@@ -39,12 +44,18 @@ export default {
             // 段落是否缩进
             indent: true,
             // 编辑行
-            editLine: 0
+            editLine: 0,
+            // 总时间
+            totalTime:0,
+            // 重新开始
+            isResume:false
         }
     },
     computed: {
         ...mapGetters({
-            lineSize: `${PREFIX}size`
+            lineSize: `${PREFIX}size`,
+            currentLine:`${PREFIX}line`,
+            timer:`${PREFIX}timer`
         })
     },
     components: {
@@ -56,10 +67,17 @@ export default {
             this.logLines = [];
             this[SET_LINE](0);
             this.generatorParagraphs();
+        },
+        timer(v){
+            v.appendRepeateHandler('total',()=>{
+                if(v._timelineRunning){
+                    this.totalTime+=1000;
+                }
+            },Number.MAX_VALUE,1000);
         }
     },
     methods: {
-        ...mapMutations([SET_LINE]),
+        ...mapMutations([SET_LINE,PAUSE_TIMER,RESUME_TIMER]),
         // 生成段落
         generatorParagraphs() {
             let Regexp = /<(\w+).*>(.*)<\/\1>/g;
@@ -108,7 +126,21 @@ export default {
             this.$refs.lineInput.forEach(input => {
                 allTimes.push(...input.charsTime);
             });
-            console.log(allTimes.length);
+            let total=allTimes.reduce((prev,next)=>{
+                return prev+next;
+            },0);
+            console.log(total);
+        },
+        stopTimer(){
+            this.tempLine=this.currentLine;
+            this[PAUSE_TIMER]();
+            this[SET_LINE](-1);
+            this.isResume=false;
+        },
+        resumeTimer(){
+            this[RESUME_TIMER]();
+            this[SET_LINE](this.tempLine);
+            this.isResume=true;
         }
     },
     mounted() {

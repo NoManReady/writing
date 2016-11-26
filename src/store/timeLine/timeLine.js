@@ -13,11 +13,18 @@ import JsTimer from '../../utils/timer';
 
 export default {
     state: {
+        // 定时器
         timer: null,
+        // 当前编辑行
         currentLine: 0,
+        // 剩余字符
         remainContent:'',
+        // 剩余时间及长度
         remainTime:null,
-        lineSize:100
+        // 每行字符数（单字符）
+        lineSize:150,
+        // 总时间
+        totalTime:0
     },
     actions: {
         // timer-actions
