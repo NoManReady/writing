@@ -1,8 +1,8 @@
 <template>
-  <div class="lint-input">
-    <p :style="firstLineStyle">{{content}}</p>
-    <input class="placeholder" type="text" v-model="initval" :style="firstLineStyle" v-if="editable" v-focus="editable" ref="TLinput" @click="onClick($event)" @mouseup="onMouseup($event)">
-    <p class="placeholder" :style="firstLineStyle" v-else>{{initval}}</p>
+  <div class="line-input">
+    <p :style="firstLineStyle" v-html="displayContent"></p>
+    <input class="placeholder" type="text" v-model="initval" :style="firstLineStyle" v-if="editable" v-focus="editable" ref="TLinput" @click="onClick($event)"/>
+    <p :style="firstLineStyle" v-else>{{initval}}</p>
   </div>
 </template>
 <script>
@@ -15,11 +15,11 @@ import {
 import {
     PREFIX,
     SET_LINE,
-    SET_REMAIN_CONTENT
+    SET_REMAIN_CONTENT,
+    SET_REMAIN_TIME
 } from '../store/timeLine/constant';
 import {
-    getRealLength,
-    getStringByLength
+    getRealLength
 } from '../utils';
 export default {
     name: 'LineInput',
@@ -28,7 +28,10 @@ export default {
             initval: '',
             charsTime: [],
             currentPosition: 0,
-            prevPosition: 0
+            prevPosition: 0,
+            isFirstInput: true,
+            displayContent: '',
+            errorsPosition: Object.freeze([])
         }
     },
     props: {
@@ -50,15 +53,16 @@ export default {
         }
     },
     created() {
+        this.displayContent = this.content;
         this.charsTime = _.fill(Array.from({
             length: this.lineSize
         }), 0);
     },
     computed: {
-        ...mapGetters([`${PREFIX}timer`, `${PREFIX}line`]),
+        ...mapGetters([`${PREFIX}timer`, `${PREFIX}line`, `${PREFIX}remainTime`, `${PREFIX}remainContent`]),
         firstLineStyle() {
             return this.isFirst && this.indent ? {
-                'paddingLeft': '2em'
+                'textIndent': '2em'
             } : {};
         },
         lineRealSize() {
@@ -73,15 +77,32 @@ export default {
     },
     watch: {
         initval(val, oldVal) {
-            if (!this.editable || !val) {
-
+            let len = val.length;
+            // 判断错误（initval有变化就检测）
+            this.judgeText(val);
+            if (!this.editable || !len) {
                 return;
             }
             if (!this[`${PREFIX}timer`]) {
                 this.begin_timer();
             }
             // 是否溢出
-            let isOver = val.length >= this.lineSize;
+            let isOver = len >= this.lineSize;
+            // 判断是否是上一行溢出剩余值(是则初始化时间)
+            let remain = this[`${PREFIX}remainTime`];
+            if (remain && this.isFirstInput) {
+                for (let index = 0; index < remain.len && index < this.lineSize; index++) {
+                    this.$set(this.charsTime, index, remain.time);
+                }
+                if (len <= this.lineSize) {
+                    this[SET_REMAIN_TIME](null);
+                } else {
+                    this[SET_REMAIN_TIME](Object.assign({}, remain, {
+                        len: remain.len - this.lineSize
+                    }));
+                }
+                this.isFirstInput = false;
+            }
             // 如果溢出则将溢出字符保存
             if (isOver) {
                 // 剩余字符
@@ -106,25 +127,40 @@ export default {
             this.currentPosition = this.getPosition(TLinput);
             // 输入字符长度
             let charsLength = this.currentPosition - this.prevPosition;
-            // 可用长度
-            let charLenUse = isOver ? this.lineSize - oldVal.length : this.currentPosition - this.prevPosition;
+            // 超出字符数（当前输入字符即下一行有效时间字符数）
+            let validCharLength = charsLength + this.prevPosition - this.lineSize;
             // 单字符时间
             let charTimePer = popSpan / (charsLength >= 1 ? charsLength : 1);
             // 输入开始位置
             let beginPosition = this.prevPosition;
+            // 更新时间（当前位置小于总长度或者小于选区结束位置即输入字符数+开始位置）
             while (beginPosition < this.lineSize && beginPosition < this.currentPosition) {
                 let prevValue = this.charsTime[beginPosition];
                 this.$set(this.charsTime, beginPosition, prevValue + charTimePer);
                 beginPosition++;
             }
+            // 判断是否溢出且具有有效字符时间
+            if (isOver && validCharLength > 0) {
+                this[SET_REMAIN_TIME]({
+                    time: charTimePer,
+                    len: validCharLength
+                });
+            }
+            // 更新上一个光标位置
             this.prevPosition = this.currentPosition;
-            console.log(this.charsTime);
-
+            console.log(`this.charsTime:${this.charsTime}`);
+        },
+        editable(edit) {
+            // 开启编辑时判断是否有剩余内容（有则初始值）
+            if (this[`${PREFIX}remainContent`] && edit) {
+                this.initval = this[`${PREFIX}remainContent`];
+            }
         }
     },
     methods: {
         ...mapActions(['begin_timer']),
-        ...mapMutations([SET_LINE, SET_REMAIN_CONTENT]),
+        ...mapMutations([SET_LINE, SET_REMAIN_CONTENT, SET_REMAIN_TIME]),
+        // 获取元素光标位置
         getPosition(el) {
             let iCaretPos = 0;
             if (document.selection) {
@@ -142,30 +178,62 @@ export default {
                 iCaretPos = el.selectionStart;
             return iCaretPos;
         },
+        // 比较行字符串
+        judgeText(val) {
+            let errors = [],
+                content = [];
+            let len = Math.min(val.length, this.lineSize);
+            for (let i = 0; i < len; i++) {
+                let realContent = this.content.charAt(i);
+                if (val.charAt(i) !== realContent) {
+                    errors.push(i);
+                    content.push(`<span class="text-err">${realContent}</span>`);
+                } else {
+                    content.push(realContent);
+                }
+            }
+            if (len < this.lineSize) {
+                content.push(this.content.substr(len));
+            }
+            this.displayContent = content.join('');
+            this.errorsPosition = errors;
+        },
         onClick(evt) {
             this.prevPosition = this.getPosition(evt.target);
         },
         onMouseup(evt) {
-            if (document.activeElement) {
-              this.prevPosition=Math.min(document.activeElement.selectionStart,document.activeElement.selectionEnd);
+            if (document.activeElement && document.activeElement === this.$refs.TLinput) {
+                this.prevPosition = Math.min(document.activeElement.selectionStart, document.activeElement.selectionEnd);
+                console.log(`this.prevPosition:${this.prevPosition}`);
             }
         }
+    },
+    mounted() {
+        document.addEventListener('mouseup', this.onMouseup.bind(this), false);
+    },
+    beforeDestory() {
+        document.removeEventListener('mouseup', this.onMouseup);
     }
 }
 
-
 </script>
-<style lang="scss" scoped>
-  .lint-input{
+<style lang="scss">
+  .line-input{
     background: #fff;
     margin-bottom:1em;
     padding:5px;
+    p{
+        height:24px;
+        line-height: 24px;
+    }
     .placeholder{
       outline:none;
       border:none;
       width:100%;
-      height:24px;
-      line-height:24px;
+      resize: none;
+    }
+    .text-err{
+        color:red;
     }
   }
 </style>

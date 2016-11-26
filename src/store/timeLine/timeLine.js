@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import {
+    SIZE,
     PREFIX,
     BEGIN_TIMER,
     PAUSE_TIMER,
     RESUME_TIMER,
     SET_LINE,
-    SET_REMAIN_CONTENT
+    SET_REMAIN_CONTENT,
+    SET_REMAIN_TIME
 } from './constant';
 import JsTimer from '../../utils/timer';
 
@@ -13,7 +15,9 @@ export default {
     state: {
         timer: null,
         currentLine: 0,
-        remainContent:''
+        remainContent:'',
+        remainTime:null,
+        lineSize:100
     },
     actions: {
         // timer-actions
@@ -53,17 +57,26 @@ export default {
         // remain-mutations
         [SET_REMAIN_CONTENT](state,content){
           state.remainContent=content;
+        },
+        [SET_REMAIN_TIME](state,timeObj){
+            state.remainTime=timeObj;
         }
     },
     getters: {
+        [`${PREFIX}size`](state) {
+            return state.lineSize;
+        },
         [`${PREFIX}timer`](state) {
             return state.timer;
         },
         [`${PREFIX}line`](state) {
             return state.currentLine;
         },
-        [`${PREFIX}remain`](state) {
+        [`${PREFIX}remainContent`](state) {
             return state.remainContent;
+        },
+        [`${PREFIX}remainTime`](state) {
+            return state.remainTime;
         }
     }
 }

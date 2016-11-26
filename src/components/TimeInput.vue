@@ -1,6 +1,7 @@
 <template>
   <div class="time-input">
     <label style="cursor:pointer;"><small>是否缩进：</small><input type="checkbox" v-model="indent"></label>
+    <a @click="getAllData" class="test-btn">get-data</a>
     <div v-for="(line,index) in lines">
       <line-input ref="lineInput" :isFirst="isFirstLine(line)" :content="line" :indent="indent" :index="index" :key="line"/>
     </div>
@@ -8,12 +9,12 @@
 </template>
 <script>
 import {
-  mapGetters,
+    mapGetters,
     mapMutations
 } from 'vuex';
 import LineInput from './LineInput';
 import {
-  PREFIX,
+    PREFIX,
     SET_LINE
 } from '../store/timeLine/constant';
 import {
@@ -33,8 +34,6 @@ export default {
             lines: [],
             // 记录数据行
             logLines: [],
-            // 每行字数
-            lineSize: 20,
             // 段落缩进单字符数
             textIndent: 4,
             // 段落是否缩进
@@ -43,8 +42,10 @@ export default {
             editLine: 0
         }
     },
-    computed:{
-      ...mapGetters([`${PREFIX}line`, `${PREFIX}remain`]),
+    computed: {
+        ...mapGetters({
+            lineSize: `${PREFIX}size`
+        })
     },
     components: {
         LineInput
@@ -55,9 +56,6 @@ export default {
             this.logLines = [];
             this[SET_LINE](0);
             this.generatorParagraphs();
-        },
-        [`${PREFIX}line`](v) {
-            this.$refs.lineInput[v].initval=this[`${PREFIX}remain`];
         }
     },
     methods: {
@@ -103,6 +101,14 @@ export default {
                 }
             }
             return false;
+        },
+        // 获取全部数据
+        getAllData() {
+            let allTimes = [];
+            this.$refs.lineInput.forEach(input => {
+                allTimes.push(...input.charsTime);
+            });
+            console.log(allTimes.length);
         }
     },
     mounted() {
@@ -110,6 +116,7 @@ export default {
         this.$nextTick(() => {
             this.generatorParagraphs();
         });
+        this.$el.style.width = `${this.lineSize/2+6}em`;
     }
 }
 </script>
@@ -118,5 +125,19 @@ export default {
   min-height:100%;
   background-color:#ccc;
   padding:1em 2em;
+  overflow: auto;
+  margin:0 auto;
+  .test-btn{
+    padding: 6px 12px;
+    margin-bottom: 6px;
+    display: inline-block;
+    background-color: #41b883;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    &:hover{
+        background-color: darken(#41b883,5%);
+    }
+  }
 }
 </style>
