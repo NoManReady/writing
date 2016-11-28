@@ -7,7 +7,7 @@ import {
     RESUME_TIMER,
     SET_LINE,
     SET_REMAIN_CONTENT,
-    SET_REMAIN_TIME
+    SET_REMAIN_PREV
 } from './constant';
 import JsTimer from '../../utils/timer';
 
@@ -20,7 +20,7 @@ export default {
         // 剩余字符
         remainContent:'',
         // 剩余时间及长度
-        remainTime:null,
+        remainPrev:null,
         // 每行字符数（单字符）
         lineSize:150,
         // 总时间
@@ -55,7 +55,7 @@ export default {
             state.timer.pauseTimeline();
         },
         [RESUME_TIMER](state) {
-            state.timer.startTimeline();
+            state.timer.resumeTimeline();
         },
         // line-mutations
         [SET_LINE](state,line){
@@ -65,8 +65,8 @@ export default {
         [SET_REMAIN_CONTENT](state,content){
           state.remainContent=content;
         },
-        [SET_REMAIN_TIME](state,timeObj){
-            state.remainTime=timeObj;
+        [SET_REMAIN_PREV](state,timeObj){
+            state.remainPrev=timeObj;
         }
     },
     getters: {
@@ -82,8 +82,8 @@ export default {
         [`${PREFIX}remainContent`](state) {
             return state.remainContent;
         },
-        [`${PREFIX}remainTime`](state) {
-            return state.remainTime;
+        [`${PREFIX}remainPrev`](state) {
+            return state.remainPrev;
         }
     }
 }

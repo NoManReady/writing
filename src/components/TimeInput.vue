@@ -46,9 +46,7 @@ export default {
             // 编辑行
             editLine: 0,
             // 总时间
-            totalTime:0,
-            // 重新开始
-            isResume:false
+            totalTime:0
         }
     },
     computed: {
@@ -70,9 +68,7 @@ export default {
         },
         timer(v){
             v.appendRepeateHandler('total',()=>{
-                if(v._timelineRunning){
-                    this.totalTime+=1000;
-                }
+                this.totalTime=v.getTotalSpan();
             },Number.MAX_VALUE,1000);
         }
     },
@@ -135,12 +131,10 @@ export default {
             this.tempLine=this.currentLine;
             this[PAUSE_TIMER]();
             this[SET_LINE](-1);
-            this.isResume=false;
         },
         resumeTimer(){
             this[RESUME_TIMER]();
             this[SET_LINE](this.tempLine);
-            this.isResume=true;
         }
     },
     mounted() {
