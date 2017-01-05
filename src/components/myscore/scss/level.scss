@@ -1,0 +1,21 @@
+.blue {
+  color: #38ADFC;
+}
+
+.gray {
+  color: #333;
+}
+
+.myscore-level {
+  @extend .gray;
+  .mc {
+    padding: 12px 25px;
+    h2 {
+      @extend .blue;
+      font-size: 20px;
+    }
+    &>ul{
+      padding-left: 20px;
+    }
+  }
+}

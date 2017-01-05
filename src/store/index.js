@@ -1,54 +1,84 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import timeLine from './timeLine/timeLine';
+import * as type from './constant';
+
+// 模块
+import timeLine from './timeLine';
+import typingMode from './typingMode';
+import articleSetting from './articleSetting';
+import myscore from './myscore';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        //标题名称
         title: '',
-        list: [],
+        //是否加载中
         loading: false,
-        activeLink: 1
+        // 登录用户
+        user: window.user,
+        // 导航
+        breadcrumb: []
     },
     actions: {
-        show_loading: ({
+        // 切换loading
+        toggle_loading: ({
             commit
-        }) => {
-            commit('SET_LOADING', true);
+        }, loading) => {
+            commit(type.APP_LOADING, loading);
         },
-        hide_loading: ({
-            commit
-        }) => {
-            commit('SET_LOADING', false);
-        },
+        // 切换title
         change_title: ({
-            commit,
-            state
+            commit
         }, title) => {
-            commit('SET_TITLE', title);
+            commit(type.APP_TITLE, title);
+            document.title = title;
+        },
+        // 设置登录用户
+        login_user: ({
+            commit
+        }, user) => {
+            commit(type.LOGIN_USER, user);
+        },
+        // 改变路由
+        change_crumb: ({
+            commit
+        }, option) => {
+            commit(type.SET_CRUMB, option);
         }
     },
     mutations: {
-        SET_TITLE: (state, title) => {
-            state.title = title;
-            document.title = title;
-        },
-        SET_LOADING: (state, isLoading) => {
+        [type.APP_LOADING]: (state, isLoading) => {
             state.loading = isLoading;
+        },
+        [type.APP_TITLE]: (state, title) => {
+            state.title = title;
+        },
+        [type.LOGIN_USER]: (state, user) => {
+            state.user = user;
+        },
+        [type.SET_CRUMB]: (state, option) => {
+            state.breadcrumb.splice(option.index, 99,option.route);
         }
     },
     getters: {
-        list: state => {
-            return state.list;
-        },
         title: state => {
             return state.title;
         },
-        loading: (state,getters,root) => {
+        loading: (state, getters, root) => {
             return state.loading;
         },
+        loginUser: (state) => {
+            return state.user;
+        },
+        breadcrumb: (state) => {
+            return state.breadcrumb;
+        }
     },
-    modules:{
-      timeLine
+    modules: {
+        timeLine,
+        typingMode,
+        articleSetting,
+        myscore
     }
 })

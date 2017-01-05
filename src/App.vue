@@ -1,91 +1,89 @@
 <template>
-  <div class="app">
-    <HeaderComponent/>
-    <div class="container">
-      <transition :name="slide" mode="out-in">
-        <!-- <keep-alive> -->
-          <router-view></router-view>
-        <!-- </keep-alive> -->
-      </transition>
-    </div>
-    <FooterComponent/>
+  <div class="typing-app" id="app">
+    <typing-header v-if="headerShow"/>
+    <bread-crumb class="w1000" v-if="headerShow" :breadcrumb="breadcrumb"/>
+    <transition name="fade" mode="out-in" appear>
+        <router-view class="app-content" :class="{appmain:headerShow,w1000:headerShow}"></router-view>
+    </transition>
+    <loading :loading="loading"/>
   </div>
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
-import HeaderComponent from './components/Header';
-import FooterComponent from './components/Footer';
+import {
+    Store,
+    mapGetters,
+    mapActions
+} from 'vuex';
+import TypingHeader from './components/tools/TypingHeader';
+import BreadCrumb from './components/tools/BreadCrumb';
+import Loading from './components/tools/Loading2';
 export default {
-  name: 'app',
-  data(){
-    return {
-      routes:Object.freeze(['/home','/upload','/canvas','/timeinput','/echatline']),
-      slide:'',
-      router:''
-    }
-  },
-  watch:{
-    '$route':function(v){
-      this.SET_TITLE(v.name);
-    },
-  },
-  components:{
-    HeaderComponent,
-    FooterComponent
-  },
-  methods:{
-    ...mapMutations(['SET_TITLE']),
-    keyDirection(e){
-      let index=this.routes.indexOf(this.$route.path);
-      if(index<0){
-        return;
-      }
-      switch(e.keyCode){
-        // case 38:
-        case 37:
-        this.slide='slide-right';
-        this.$router.push(this.routes[index===0?this.routes.length-1:index-1]);
-        break;
-        case 39:
-        // case 40:
-        this.slide='slide-left';
-        this.$router.push(this.routes[index===this.routes.length-1?0:index+1]);
-        break;
-      }
-    },
-  },
-  beforeRouteEnter(to,from,next){
+    name: 'app',
+    data() {
+        return {
 
-  },
-  mounted(){
-    this.SET_TITLE(this.$route.name);
-    document.addEventListener('keydown', this.keyDirection, false);
-  },
-  beforeDestory(){
-    document.removeEventListener('keydown', this.keyDirection);
-  }
-};
+        }
+    },
+    computed: {
+        ...mapGetters(['loading', 'breadcrumb']),
+        headerShow() {
+            return this.$route.meta.level > 1;
+        }
+    },
+    components: {
+        TypingHeader,
+        BreadCrumb,
+        Loading
+    },
+    methods:{
+        keydown(e){
+            // console.log(e.keyCode);
+            // // debugger;
+            if((e.keyCode===8&&!_.includes(['TEXTAREA','INPUT'],document.activeElement.tagName))||(e.altKey&&e.keyCode===18)){
+                e.preventDefault();
+                // return false;
+            }
+        }
+    },
+    beforeCreate(){
+        if(this.$route.path!='/test'){
+            this.$router.replace('/home');
+        }
+    },
+    mounted(){
+        document.addEventListener('keydown', this.keydown,false);
+    },
+    beforeDestoryed(){
+    }
+}
 </script>
 
 <style lang="scss">
-@import './scss/reset';
-@import './scss/rippler';
-@import './scss/transition';
-.app{
-  width:$containerWidth;
-  height:$containerHeight;
-  font-size:16px;
-  display: flex;
-  flex-direction:column;
-  color:$white;
-  .container{
-    flex:1;
-    overflow:hidden;
-    overflow-y: scroll;
-    order:2;
-    color:#333;
-    position: relative;
-  }
-}
+    @import './scss/common';
+    @import './scss/scrollbar';
+    @import './scss/transition';
+    #app{
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        min-width:1000px;
+        font-size:14px;
+        overflow:hidden;
+        background:repeating-linear-gradient(to bottom,#a9d2fc 0%,#edf6ff 30%,#edf6ff 100%);
+        .w1000{
+            width:1000px;
+            margin-left:auto;
+            margin-right:auto;
+            border-radius:2px;
+            // background-color:#fff;
+        }
+        .appmain{
+            position:relative;
+            height:590px;
+            background:#f3f9fd;
+        }
+    }
 </style>

@@ -1,0 +1,270 @@
+.clearfix {
+  &::after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+    visibility: hidden;
+  }
+  *zoom: 1;
+}
+
+.myscore {
+  width: 920px;
+  height: 500px;
+  position: relative;
+  background-color: #fff;
+  font-size: 14px;
+  @extend .clearfix;
+  .left-panel {
+    background: linear-gradient(to top, #38adff, #5fbbfc);
+    float: left;
+    width: 180px;
+    height: 100%;
+    .left-panel-header {
+      padding: 30px 50px 15px;
+      text-align: center;
+      img {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+      }
+      span {
+        display: inline-block;
+        margin-top: 12px;
+        color: #fff;
+      }
+    }
+    .left-panel-bottom {
+      ul li {
+        display: inline-block;
+        margin: 7px 0 0 8px;
+        width: 35px;
+        height: 35px;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+  }
+  .right-panel {
+    height: 100%;
+    overflow: hidden;
+    .right-panel-tab {
+      ul {
+        @extend .clearfix;
+        font-size: 18px;
+        li {
+          float: left;
+          width: 50%;
+          height: 60px;
+          line-height: 60px;
+          text-align: center;
+          background-color: #eef1f6;
+          color: #5c6166;
+          position: relative;
+          cursor: pointer;
+          &.active {
+            background-color: #38adff;
+            color: #ffffff;
+            cursor: default;
+            &:after {
+              content: '';
+              position: absolute;
+              left: 50%;
+              bottom: 0px;
+              transform: translateY(100%);
+              width: 0;
+              height: 0;
+              border: 10px solid transparent;
+              border-top-color: #38adff;
+            }
+          }
+        }
+      }
+    }
+  }
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    color: #8A939C;
+    font-size: 26px;
+    line-height: 1;
+    &.active {
+      color: #fff;
+    }
+  }
+}
+
+//以下为动效样式
+/*遮罩层样式*/
+.mark {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+/*勋章提示样式*/
+.medal-content .medal-tip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -370px 0 0 -345px;
+  width: 740px;
+  height: 690px;
+  z-index: 2;
+  opacity: 0;
+}
+
+.medal-content .medal-tip img {
+  width: 100%;
+  height: 100%;
+}
+
+.medal-content .medal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -129px 0 0 -71px;
+  width: 240px;
+  height: 240px;
+  z-index: 2;
+  opacity: 0;
+}
+
+/*勋章飞入提示动效*/
+@keyframes zoomin {
+  from {
+    opacity: 0;
+    transform: scale(0.3, 0.3);
+  }
+
+  100% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+.zoomin {
+  animation: zoomin 0.4s linear forwards;
+}
+
+/*遮罩层消失动画*/
+@keyframes fadein {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fadein {
+  animation: fadein 0.2s 0.9s linear forwards;
+}
+
+/*勋章提示背景消失动画*/
+@keyframes fadeins {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeins {
+  animation: fadeins 0.1s 0.6s linear forwards;
+}
+
+/*勋章飞入左下角动画*/
+@keyframes bounceOutLeft {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(-1000px, 100px, -100px) scale(0.4, 0.4);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(-2000px, 200px, -200px) scale(0, 0);
+  }
+}
+
+.bounceOutLeft {
+  animation: bounceOutLeft 0.85s 0.5s linear forwards;
+}
+
+/*勋章抖动动画*/
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  animation: rubberBand 0.95s 1.3s linear forwards;
+}
+
+/*盖章动效*/
+@keyframes bouncein {
+  0% {
+    transform: scale(2.8, 2.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+.bouncein {
+  opacity: 0;
+  animation: bouncein 0.25s 1s linear forwards;
+}

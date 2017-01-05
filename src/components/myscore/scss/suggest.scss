@@ -1,0 +1,74 @@
+.blue {
+    color: #38ADFC;
+}
+
+.gray {
+    color: #333;
+}
+
+.error {
+    color: #ff9518;
+}
+
+.clearfix {
+    &::after {
+        display: block;
+        content: '';
+        clear: both;
+        height: 0;
+        visibility: hidden;
+    }
+    *zoom: 1;
+}
+
+.mysuggest {
+    padding: 25px;
+    @extend .gray;
+    .t {
+        @extend .blue;
+        font-size: 20px;
+        padding-right: 10px;
+    }
+    .mt {
+        margin-top: 25px;
+    }
+    .mysuggest-w {
+        padding: 0 50px;
+        .mysuggest-w-b {
+            @extend .clearfix;
+            margin-top: 15px;
+            & > span {
+                display: inline-block;
+                border: 1px solid #cccccc;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+            }
+            .l {
+                float: left;
+                width: 10%;
+            }
+            .r {
+                float: right;
+                width: 87%;
+                text-align: left;
+            }
+            .pl10{
+                padding-left: 10px;
+            }
+
+            .rl {
+                float: left;
+                width: 65%;
+                text-align: left;
+                padding-left: 10px;
+            }
+            .rr {
+                float: right;
+                width: 35%;
+                text-align: left;
+                padding-left: 20px;
+            }
+        }
+    }
+}

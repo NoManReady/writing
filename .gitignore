@@ -1,5 +1,8 @@
-.DS_Store
-node_modules/
-dist/
-npm-debug.log
-test/unit/coverage
+# Ignore everything in this directory 
+
+# Except this file !.gitignore 
+node_modules
+npm-debug.log*
+.idea
+.vscode
+src/components/test/*

@@ -1,0 +1,95 @@
+.blue {
+    color: #38ADFC;
+}
+
+.gray {
+    color: #333;
+}
+
+.w80 {
+    width: 80%;
+}
+
+$url: "../../assets/icon/myscore/";
+
+.clearfix {
+    &::after {
+        display: block;
+        content: '';
+        clear: both;
+        height: 0;
+        visibility: hidden;
+    }
+    *zoom: 1;
+}
+
+.myscore-d {
+    padding: 25px;
+    @extend .gray;
+    .dc {
+        color: #333;
+    }
+    p {
+        &.mt {
+            margin-top: 15px;
+        }
+    }
+    .myscore-d-m {
+        @extend .clearfix;
+        li {
+            margin-top: 25px;
+            float: left;
+            width: 33%;
+            height: 20px;
+            line-height: 20px;
+        }
+        span {
+            @extend .blue;
+        }
+        label {
+            padding-left: 33px;
+            display: inline-block;
+            &.t {
+                background: url("#{$url}time.png") no-repeat left;
+            }
+            &.cr {
+                background: url("#{$url}rate.png") no-repeat left;
+            }
+            &.cw {
+                background: url("#{$url}correctspeed.png") no-repeat left;
+            }
+            &.ts {
+                background: url("#{$url}topspeed.png") no-repeat left;
+            }
+            &.as {
+                background: url("#{$url}avgspeed.png") no-repeat left;
+            }
+        }
+    }
+    .myscore-d-b {
+        position: relative;
+        border: 1px solid #ccc;
+        margin: 35px 0 0 33px;
+        padding-bottom: 17px;
+        &:before {
+            position: absolute;
+            transform: translateX(-115%);
+            top: -10px;
+            content: '';
+            background: url("#{$url}statis.png") no-repeat left;
+            width: 30px;
+            height: 30px;
+        }
+        ul {
+            @extend .clearfix;
+        }
+        li {
+            padding: 17px 0 0 15px;
+            float: left;
+            width: 30%;
+        }
+        span {
+            color: #333;
+        }
+    }
+}

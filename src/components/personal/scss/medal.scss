@@ -1,0 +1,86 @@
+@import "assist";
+.clearfix {
+  &::after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+    visibility: hidden;
+  }
+  *zoom: 1;
+}
+
+
+.medal-index {
+  padding-bottom: 6px;
+}
+
+.medal-title {
+  font: 18px/74px 'microsoft yahei';
+  margin-left: 40px;
+  color: #666;
+}
+
+.medal {
+  height: 160px;
+  .medal-header {
+    padding: 0 0 0 50px;
+    margin-bottom: 20px;
+    font: 14px/14px 'microsoft yahei';
+    color: #666;
+    text-align: left;
+  }
+  .medal-body {
+    position: relative;
+
+    overflow: hidden;
+    .prev, .next {
+      position: absolute;
+      display: block;
+      top: 0;
+      font: 30px/90px 'microsoft yahei';
+      width: 50px;
+      height: 100%;
+      color: #b8bacc;
+    }
+    .prev {
+      left: 0;
+      padding-left: 30px;
+    }
+    .next {
+      right: 0;
+      padding-right: 30px;
+    }
+    .available {
+      color: #38adff;
+    }
+
+    .e-list {
+      margin: 0 50px;
+      overflow: hidden;
+      ul {
+        @extend .clearfix;
+        width: 99999999px;
+        @include render(transition, margin-left .4s linear);
+      }
+      li {
+        float: left;
+        padding: 0 13px;
+        margin-left: 1px;
+      }
+      img {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+      }
+    }
+  }
+  .medal-empty {
+    font: 16px/40px 'microsoft yahei';
+    color: #999;
+    text-align: center;
+  }
+  .count {
+    color: #38adff;
+  }
+}

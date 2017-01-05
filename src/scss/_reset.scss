@@ -1,11 +1,9 @@
-@import 'color';
-@import 'layout';
 html {
-    font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+    font-family: "microsoft yahei", Helvetica, STHeiTi, Arial, sans-serif;
+    font-size: 10px;
 
     -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
-        font-size:10px;
 }
 body {
     overflow-x: hidden;
@@ -15,7 +13,6 @@ body {
 
     line-height: 1.5;
 
-    color: $text;
     background-color: white;
 
     -webkit-overflow-scrolling: touch;
@@ -59,16 +56,19 @@ svg:not(:root) {
 a {
     text-decoration: none;
 
-    color: $text;
+    color: #5c6166;
     background: transparent;
 
     -webkit-tap-highlight-color: transparent;
+    &:hover {
+        color: #38adff;
+    }
 }
 a:active {
     outline: 0;
 }
 a:active {
-    color: $themeColor;
+    color: #38adff;
 }
 abbr[title] {
     border-bottom: 1px dotted;
@@ -107,8 +107,6 @@ img {
     vertical-align: middle;
 }
 hr {
-    -moz-box-sizing: content-box;
-         box-sizing: content-box;
     height: 0;
 }
 pre {
@@ -166,7 +164,6 @@ input {
 }
 input[type="checkbox"],
 input[type="radio"] {
-    box-sizing: border-box;
     padding: 0;
 }
 input[type="number"]::-webkit-inner-spin-button,
@@ -174,10 +171,6 @@ input[type="number"]::-webkit-outer-spin-button {
     height: auto;
 }
 input[type="search"] {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-
     -webkit-appearance: textfield;
 }
 input[type="search"]::-webkit-search-cancel-button,
@@ -209,14 +202,6 @@ table {
 td,
 th {
     padding: 0;
-}
-
-html,
-button,
-input,
-select,
-textarea {
-    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
 }
 h1,
 h2,
@@ -269,9 +254,21 @@ input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
     color: #ccc;
 }
-
+i {
+    font-style: normal;
+}
 * {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
+}
+input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+
+    outline: none;
+    &:focus {
+        border-color: #38adff;
+    }
+    &.error{
+        border-color:#f43531;
+    }
 }

@@ -21,7 +21,7 @@ JsTimer.prototype.appendRepeateHandler = function(name, fun, invalidTime, interv
         handler: fun,
         expried: invalidTime,
         delay: intervalTime,
-        next: this.time() + intervalTime
+        next: intervalTime
     });
 };
 JsTimer.prototype.appendHandler = function(name, handleTime, fun) {
@@ -98,7 +98,7 @@ JsTimer.prototype._setServerTime = function(serverTime) {
 };
 JsTimer.prototype._onInterval = function() {
     var i = 0,
-        cur = this.time();
+        cur = this.getTotalSpan();
     this._lasttime = cur;
     while (i < this._onces.length) {
         var c = this._onces[i];

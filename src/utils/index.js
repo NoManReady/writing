@@ -26,18 +26,18 @@ export function timeFormat(value, fmt = 'yyyy-MM-dd') {
  * @param  {string} str 给定字符串
  * @return {int}     字符串长度
  */
-export function getRealLength(str){
-  let realLength=0;
-  let strLen=str.length;
-  str.split('').forEach((s,i)=>{
-    let char=s.charAt(0);
-    if(isSingleChar(char)){
-      realLength++;
-    }else{
-      realLength+=2;
-    }
-  });
-  return realLength;
+export function getRealLength(str) {
+    let realLength = 0;
+    let strLen = str.length;
+    str.split('').forEach((s, i) => {
+        let char = s.charAt(0);
+        if (isSingleChar(char)) {
+            realLength++;
+        } else {
+            realLength += 2;
+        }
+    });
+    return realLength;
 }
 
 /**
@@ -46,22 +46,24 @@ export function getRealLength(str){
  * @param  {int} size  截取字符串长度
  * @return {object}       截取字符串及当前字符串索引对象
  */
-export function getStringByLength(str,size){
-  let len=0,cursor=0,returnString=[];
-  while(len<size&&cursor<str.length){
-    let char=str.charAt(cursor);
-    returnString.push(char);
-    if(isSingleChar(char)){
-      len++;
-    }else{
-      len+=2;
+export function getStringByLength(str, size) {
+    let len = 0,
+        cursor = 0,
+        returnString = [];
+    while (len < size && cursor < str.length) {
+        let char = str.charAt(cursor);
+        returnString.push(char);
+        if (isSingleChar(char)) {
+            len++;
+        } else {
+            len += 2;
+        }
+        cursor++;
     }
-    cursor++;
-  }
-  return {
-    content:returnString.join(''),
-    cursor:cursor
-  };
+    return {
+        content: returnString.join(''),
+        cursor: cursor
+    };
 }
 
 /**
@@ -69,7 +71,61 @@ export function getStringByLength(str,size){
  * @param  {string}  char 判断字符串
  * @return {Boolean}      是否为单字符
  */
-function isSingleChar(char){
-  let code=char.charCodeAt(0);
-  return code>=0&&code<=128;
+function isSingleChar(char) {
+    let code = char.charCodeAt(0);
+    return code >= 0 && code <= 128;
+}
+
+/**
+ * 设置localstorage
+ * @param  {string} key     key
+ * @param  {any} options value
+ * @return {null}         [description]
+ */
+export function setItem(key, options) {
+    if (typeof(options) === 'object') {
+        options = JSON.stringify(options);
+    }
+    window.localStorage.setItem(key, options);
+}
+
+/**
+ *获取localstorage
+ * @param  {string} key     key
+ * @return {any}         value
+ */
+export function getItem(key) {
+    let item = window.localStorage.getItem(key) || JSON.stringify(null);
+    try {
+        return JSON.parse(item);
+    } catch (e) {
+        return item;
+    }
+}
+
+/**
+ * 编码html
+ * @param  {string} s 输入字符串
+ * @return {string}   输出字符串
+ */
+export function encodeHtml(s) {
+    if (s.length == 0) return "";
+    s = s.replace(/</g, "&lt;");
+    s = s.replace(/>/g, "&gt;");
+    s = s.replace(/\s/g, "&nbsp;");
+    return s;
+}
+
+/**
+ * 解码html
+ * @param  {string} s 输入字符串
+ * @return {string}   输出字符串
+ */
+export function decodeHtml(s) {
+    if (s.length == 0) return "";
+    s = s.replace(/&lt;/g, "<");
+    s = s.replace(/&gt;/g, ">");
+    s = s.replace(/&#39;/g, "\'");
+    s = s.replace(/&quot;/g, "\"");
+    return s;
 }

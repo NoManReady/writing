@@ -23,5 +23,12 @@ export default {
         minute=('00'+minute).substr(minute.toString().length);
         second=('00'+second).substr(second.toString().length);
         return `${hour}:${minute}:${second}`
+    },
+    parseInt:(value)=>{
+        value=value||0;
+        return Math.floor(value);
+    },
+    sectionFilter:(content)=>{
+        return content.split(/\n/g);
     }
 };

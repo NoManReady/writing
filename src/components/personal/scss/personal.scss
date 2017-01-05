@@ -1,0 +1,63 @@
+@import "assist";
+
+.e-tabs {
+    height: 60px;
+    display: flex;
+    .e-tab {
+        position: relative;
+        display: block;
+        float: left;
+        flex: 1;
+        font: 16px/56px 'microsoft yahei';
+        color: #666;
+        text-align: center;
+        text-decoration: none;
+        width: 380px;
+    }
+    .my-medal {
+        overflow: hidden;
+        background: url("../../assets/icon/corve/medal1.png") #eef1f6 no-repeat 140px;
+        span {
+            display: block;
+            height: 60px;
+            line-height: 60px;
+            padding-left: 40px;
+        }
+        &.active {
+            background: url("../../assets/icon/corve/medal2.png") #38adff no-repeat 140px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    }
+    .my-line {
+        overflow: hidden;
+        background: url("../../assets/icon/corve/line2.png") #eef1f6 no-repeat 140px;
+        span {
+            display: block;
+            height: 60px;
+            line-height: 60px;
+            padding-left: 40px;
+
+        }
+        &.active {
+            background: url("../../assets/icon/corve/line1.png") #38adff no-repeat 140px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    }
+}
+
+.personal {
+    .personal-container {
+        position: relative;
+        width:760px;
+        min-height: 400px;
+        background: #fff;
+        font-size:14px;
+    }
+    :root .el-dialog__body & {
+        margin: -30px -20px;
+    }
+}

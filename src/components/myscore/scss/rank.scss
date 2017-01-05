@@ -1,0 +1,125 @@
+.blue {
+    color: #38ADFC;
+}
+
+.gray {
+    color: #8A9197;
+}
+
+.error {
+    color: #ff9518;
+}
+
+$url: "../../assets/icon/myscore/";
+.w90 {
+    width: 90%;
+}
+
+.clearfix {
+    &::after {
+        display: block;
+        content: '';
+        clear: both;
+        height: 0;
+        visibility: hidden;
+    }
+    *zoom: 1;
+}
+
+.myrank-conent {
+    @extend .gray;
+    height: 440px;
+    .fl {
+        float: left;
+        box-shadow: 3px 0px 3px -3px #dedede;
+    }
+    .fr {
+        float: right;
+    }
+    .myrank-c-t {
+        height: 100%;
+        @extend .clearfix;
+        .myrank-list {
+            padding: 30px 0 0 15px;
+            width: 33%;
+            height: 100%;
+            label {
+                font-size: 16px;
+                color: #606165;
+            }
+            p {
+                text-indent: 35px;
+                padding-bottom: 10px;
+            }
+            li {
+                height: 40px;
+                line-height: 40px;
+            }
+            .td1 {
+                width: 10%;
+                height: 100%;
+                float: left;
+                display: inline-block;
+                text-align: center;
+                &.top1 {
+                    background: url("#{$url}1.png") no-repeat center;
+                }
+                &.top2 {
+                    background: url("#{$url}2.png") no-repeat center;
+                }
+                &.top3 {
+                    background: url("#{$url}3.png") no-repeat center;
+                }
+                &.normal {
+
+                }
+            }
+            .td2 {
+                width: 55%;
+                float: left;
+                padding-left: 10px;
+                & > img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                }
+            }
+            .td3 {
+                width: 35%;
+                float: right;
+                padding-right: 10px;
+                text-align: right;
+            }
+            .bg {
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                background-color: #38ADFC;
+                color: #fff;
+                border-radius: 13px;
+                margin-right: 5px;
+            }
+            .notyperank {
+                margin-top: 50px;
+                text-align: center;
+                & > p {
+                    text-indent: 0px;
+                    padding: 38px 40px;
+                    font-size: 16px;
+                }
+            }
+        }
+
+    }
+    .myrank-c-f {
+        width: 228px;
+        margin: 138px auto;
+        text-align: center;
+        p {
+            font-size: 16px;
+            margin-top: 30px;
+        }
+    }
+}

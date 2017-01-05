@@ -1,0 +1,132 @@
+.clearfix {
+  &::after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+    visibility: hidden;
+  }
+  *zoom: 1;
+}
+
+$url: "../../assets/icon/myscore/";
+
+.blue {
+  color: #38ADFC;
+}
+
+.gray {
+  color: #666;
+}
+
+.myscore-content {
+  .score-dialog {
+    width: 630px;
+  }
+  .myscore-content-l {
+    float: left;
+    width: 50%;
+    .m-c-level {
+      margin: 60px auto;
+      padding: 0 40px;
+      text-align: center;
+      font-size: 20px;
+      @extend .gray;
+      a {
+        @extend .blue;
+        &.ll {
+          text-decoration: underline;
+          font-size: 16px;
+        }
+      }
+      .m-c-l-c {
+        margin: 42px auto;
+        width:292px;
+        height: 210px;
+      }
+    }
+    .nolevel {
+      margin: 50px auto;
+      width: 231px;
+      height: 326px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .myscore-content-r {
+    @extend .gray;
+    float: right;
+    width: 50%;
+    .c-r-t {
+      padding-top: 10px;
+      padding-left: 20px;
+      .correct {
+        padding: 0;
+        font-size: 18px;
+        @extend .gray;
+        strong {
+          padding: 0 15px;
+          font-size: 65px;
+          @extend .blue;
+        }
+      }
+      .input {
+        color: #666;
+        font-size: 15px;
+      }
+    }
+    .c-r-mid {
+      padding: 25px 0 0 20px;
+      font-size: 14px;
+      @extend .clearfix;
+      div {
+        display: inline-block;
+        float: left;
+        width: 50%;
+        margin-top: 25px;
+      }
+      label {
+        padding-left: 26px;
+      }
+      span {
+        @extend .blue;
+      }
+      .time {
+        background: url("#{$url}time.png") no-repeat left;
+      }
+      .count {
+        background: url("#{$url}totalcount.png") no-repeat left;
+      }
+      .speed {
+        background: url("#{$url}avgspeed.png") no-repeat left;
+      }
+      .correct {
+        background: url("#{$url}rate.png") no-repeat left;
+      }
+    }
+    .c-r-b {
+      padding: 15px 74px 0 20px;
+      p {
+        margin-top: 27px;
+        line-height: 30px;
+        height: 30px;
+      }
+      a {
+        float: right;
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        border: 1px solid #38ADFC;
+        border-radius: 20px;
+        transition: background 0.3s;
+        @extend .blue;
+        &:hover {
+          color: #fff;
+          background-color: #38ADFC;
+        }
+      }
+    }
+  }
+}

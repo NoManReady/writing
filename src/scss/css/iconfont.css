@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'typing';
+  src:
+    url('../scss/fonts/typing.ttf?9ty4xl') format('truetype'),
+    url('../scss/fonts/typing.woff?9ty4xl') format('woff'),
+    url('../scss/fonts/typing.svg?9ty4xl#typing') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="nd-icon-"], [class*=" nd-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'typing' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.nd-icon-progress .path1:before {
+  content: "\e900";
+  color: rgb(45, 210, 208);
+}
+.nd-icon-progress .path2:before {
+  content: "\e901";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.nd-icon-progress .path3:before {
+  content: "\e902";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.nd-icon-speed .path1:before {
+  content: "\e903";
+  color: rgb(255, 184, 34);
+}
+.nd-icon-speed .path2:before {
+  content: "\e904";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.nd-icon-stop .path1:before {
+  content: "\e905";
+  color: rgb(56, 173, 255);
+}
+.nd-icon-stop .path2:before {
+  content: "\e906";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.nd-icon-time:before {
+  content: "\e907";
+}
+.nd-icon-correct .path1:before {
+  content: "\e908";
+  color: rgb(255, 255, 255);
+}
+.nd-icon-correct .path2:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(255, 149, 24);
+}
+
