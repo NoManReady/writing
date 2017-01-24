@@ -7,7 +7,7 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'typewrite',
-    assetsPublicPath: 'http://static.auxo.test.huayu.nd/',// http://r.s1.e.99.com/   http://static.auxo.test.huayu.nd/  http://s13.e.99.com/
+    assetsPublicPath: 'http://s13.e.99.com/',// http://r.s1.e.99.com/   http://static.auxo.test.huayu.nd/  http://s13.e.99.com/
     productionSourceMap: false,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

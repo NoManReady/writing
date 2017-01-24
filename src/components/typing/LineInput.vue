@@ -297,7 +297,7 @@ export default {
         letter-spacing: 0;
         word-spacing: 0;
         overflow: hidden;
-
+        word-break: break-all;
         outline: none;
 
         @extend %lineHeight;

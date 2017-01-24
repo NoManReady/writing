@@ -150,7 +150,7 @@ export default {
             },
             set(limit) {
                 this.limitValid = (/^[0-9]+$/.test(limit) && limit <= 999 && limit >= 0) || limit === '';
-                this.set_limit(limit);
+                this.set_limit(limit||0);
             }
         },
         code: {

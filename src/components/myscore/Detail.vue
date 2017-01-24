@@ -2,7 +2,7 @@
     <div class="myscore-d">
         <div>
             <p>
-                测试文章：<span class="dc overflow vm w80" :title="typingName">{{typingName}}</span>
+                测试文章：<span class="dc overflow vm w80" :title="typingName" style="height: 24px;">{{typingName}}</span>
             </p>
             <p class="mt">
                 <label>输入法</label>：<span class="dc">{{asd.name}}</span>
@@ -29,13 +29,15 @@
         </div>
         <div class="myscore-d-b">
             <ul>
-                <li>汉字数：<span>{{asd.word_count-asd.blank_count-asd.punctuation_count-asd.letter_count}}</span></li>
+                <li>汉字数：<span>{{asd.total_word_count}}</span></li>
                 <li>正确汉字数：<span>{{asd.right_word_count}}</span></li>
                 <li>字母数：<span>{{asd.letter_count}}</span></li>
                 <li>正确字母数：<span>{{asd.right_letter_count}}</span></li>
                 <li>标点符号数：<span>{{asd.punctuation_count}}</span></li>
                 <li>正确符号数：<span>{{asd.right_punctuation_count}}</span></li>
                 <li>空格数：<span>{{asd.blank_count}}</span></li>
+                <li>数字数：<span>{{asd.number_count}}</span></li>
+                <li>正确数字数：<span>{{asd.right_number_count}}</span></li>
             </ul>
         </div>
     </div>

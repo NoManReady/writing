@@ -71,13 +71,14 @@ export default {
         },
         suggests(state){
             var list = state.suggests;
+
+            function r(item) {
+                return /[a-zA-Z]/g.test(item.word) || /[\u4e00-\u9fa5]/g.test(item.word);
+            }
+
             return {
-                'mis_prints': list.mis_prints.filter((item) => {
-                    return !/[\。\？\！\，\、\：\；\“\”\‘\’\（\）\《\》\.\?\!\,\/\:\;\"\'\(\)\<\>\s]/g.test(item.word);
-                }),
-                'slow_words': list.slow_words.filter((item) => {
-                    return !/[\。\？\！\，\、\：\；\“\”\‘\’\（\）\《\》\.\?\!\,\/\:\;\"\'\(\)\<\>\s]/g.test(item.word);
-                })
+                'mis_prints': list.mis_prints.filter(r),
+                'slow_words': list.slow_words.filter(r)
             };
         }
     }

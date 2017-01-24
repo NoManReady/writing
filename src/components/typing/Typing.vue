@@ -37,6 +37,7 @@
     // } from '../../utils';
     const signRegexp = /[\。\？\！\，\、\：\；\“\”\‘\’\（\）\《\》\.\?\!\,\/\:\;\"\'\(\)\<\>]/g;
     const blankRegexp = /\s/g;
+    const numberRegxp=/[0-9]/g;
     const letterRegexp = /[a-zA-Z]/g;
     const wordRegexp = /[\u4e00-\u9fa5]/g;
     export default {
@@ -257,7 +258,13 @@
                     right_letter_count,
                     right_punctuation_count,
                     right_word_count,
-                    totalCount
+                    totalCount,
+                    error_letter_count,
+                    error_punctuation_count,
+                    error_word_count,
+                    blank_count,
+                    error_number_count,
+                    right_number_count
                 } = this.getWordStatisticData();
                 const hashCode = (str) => {
                     let hash = 0;
@@ -288,13 +295,16 @@
                     max_speed: this.maxSpeed,
                     avg_speed: this.speed,
                     accuracy: this.correctRate,
-                    word_count: totalCount,
-                    right_word_count: right_word_count,
-                    letter_count: this.letterCount,
-                    right_letter_count: right_letter_count,
-                    punctuation_count: this.signCount,
-                    right_punctuation_count: right_punctuation_count,
-                    blank_count: this.blankCount,
+                    word_count: totalCount,//总数
+                    total_word_count:error_word_count+right_word_count,//总汉子数
+                    right_word_count: right_word_count,//正确汉子数
+                    letter_count: right_letter_count + error_letter_count,//总字母数
+                    right_letter_count: right_letter_count,//正确字母数
+                    punctuation_count: right_punctuation_count + error_punctuation_count,//总标点符号数
+                    right_punctuation_count: right_punctuation_count,//正确标点符号数
+                    blank_count: blank_count,
+                    right_number_count:right_number_count,
+                    number_count:error_number_count+right_number_count,
                     typo_words_batch_vo_for_create: {
                         mis_prints,
                         slow_words
@@ -311,15 +321,22 @@
                 const mis_prints = [];
                 const slow_words = [];
 
-                let totalCount=0;
+                let totalCount = 0;
+                let error_letter_count = 0;
                 let right_letter_count = 0;
+                let error_word_count = 0;
                 let right_word_count = 0;
+                let error_punctuation_count=0;
                 let right_punctuation_count = 0;
+                let right_number_count=0;
+                let error_number_count=0;
+                let blank_count=0;
                 for (let line in totalError) {
                     let errorLine = totalError[line];
                     let correctLine = totalCorrect[line];
                     let lineCharsTime = totalCharsTime[line];
                     totalCount+=errorLine.length+correctLine.length;
+                    let errorWordFlat='';
                     errorLine.forEach((errorItem) => {
                         if (_.findIndex(mis_prints, {
                                 word: errorItem.rw
@@ -330,6 +347,7 @@
                                 prompt: errorItem.c
                             });
                         }
+                        errorWordFlat+=errorItem.w;
                     });
                     let correctWordFlat = '';
                     correctLine.forEach((correctItem) => {
@@ -356,9 +374,16 @@
                         }
                         correctWordFlat += correctItem.w;
                     });
+                    error_letter_count += (errorWordFlat.match(letterRegexp) || []).length;
                     right_letter_count += (correctWordFlat.match(letterRegexp) || []).length;
+                    error_punctuation_count += (errorWordFlat.match(signRegexp) || []).length;
                     right_punctuation_count += (correctWordFlat.match(signRegexp) || []).length;
+                    error_word_count += (errorWordFlat.match(wordRegexp) || []).length;
                     right_word_count += (correctWordFlat.match(wordRegexp) || []).length;
+                    error_number_count+=(errorWordFlat.match(numberRegxp)||[]).length;
+                    right_number_count+=(correctWordFlat.match(numberRegxp)||[]).length;
+                    blank_count += (errorWordFlat.match(blankRegexp) || []).length;
+                    blank_count += (correctWordFlat.match(blankRegexp) || []).length;
                 }
                 return ({
                     mis_prints,
@@ -366,7 +391,13 @@
                     right_letter_count,
                     right_punctuation_count,
                     right_word_count,
-                    totalCount
+                    totalCount,
+                    error_letter_count,
+                    error_punctuation_count,
+                    error_word_count,
+                    blank_count,
+                    error_number_count,
+                    right_number_count
                 });
             },
             // 关闭我的成绩弹框
